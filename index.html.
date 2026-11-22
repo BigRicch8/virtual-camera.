@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Virtual Camera</title>
+
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    video {
+      width: 100%;
+      max-width: 600px;
+      background: black;
+      border-radius: 12px;
+    }
+
+    button, input {
+      margin: 10px;
+    }
+
+    button {
+      padding: 12px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Virtual Camera</h1>
+  <p>Select a video to simulate a camera feed.</p>
+
+  <input type="file" id="file" accept="video/*">
+
+  <br>
+
+  <video id="screen" autoplay loop muted playsinline></video>
+
+  <br>
+
+  <button onclick="playVideo()">Start Feed</button>
+  <button onclick="stopVideo()">Stop Feed</button>
+
+  <script>
+    const video = document.getElementById("screen");
+    let videoURL = null;
+
+    document.getElementById("file").addEventListener("change", function () {
+      if (videoURL) URL.revokeObjectURL(videoURL);
+
+      const file = this.files[0];
+      if (!file) return;
+
+      videoURL = URL.createObjectURL(file);
+      video.src = videoURL;
+      video.play();
+    });
+
+    function playVideo() {
+      if (video.src) video.play();
+    }
+
+    function stopVideo() {
+      video.pause();
+    }
+  </script>
+</body>
+</html>
